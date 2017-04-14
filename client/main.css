@@ -1,0 +1,5 @@
+/* CSS declarations go here */
+.leaflet-container {
+    height: 90vh;
+    width: 100%;
+}
