@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
+import { createContainer } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 
+import { Houses } from '../api/houses.jsx';
 import House from './House.jsx';
 
-// App component - represents the whole app
-export default class App extends Component {
-  getHouses() {
-    return [
-      { _id: 1, text: 'This is task 1' },
-      { _id: 2, text: 'This is task 2' },
-      { _id: 3, text: 'This is task 3' },
-    ];
-  }
-
+class App extends Component {
+  //--- Function that collects all houses, and maps them to components
   renderHouses() {
-    return this.getHouses().map((house) => (
-      <House key={house._id} task={house} />
+    return this.props.houses.map((house) => (
+      <House key={house._id} house={house} />
     ));
   }
 
@@ -32,11 +27,22 @@ export default class App extends Component {
             minZoom={1}
             maxZoom={7}
             noWrap={true}
-            attribution='Created By ArrogantBread'
+            attribution='ArrogantBread (Map) & Ciaran Langton (Backend)'
             tms={true}
           />
+        {this.renderHouses()}
         </Map>
       </div>
     );
   }
 }
+
+App.propTypes = {
+  houses: PropTypes.array.isRequired,
+};
+
+export default createContainer(() => {
+  return {
+    houses: Houses.find({}).fetch(),
+  };
+}, App);

@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Marker, Popup, TileLayer } from 'react-leaflet';
 
 //--- This component represents a single house on the map
 export default class House extends Component {
   render() {
     return (
-      <li>{this.props.house.text}</li>
+      <Marker position={this.props.house.position}>
+        <Popup>
+          <span>
+            {this.props.house.name}
+          </span>
+        </Popup>
+      </Marker>
     );
   }
 }
