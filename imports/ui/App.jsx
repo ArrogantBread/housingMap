@@ -12,7 +12,12 @@ class App extends Component {
     return this.props.houses.map((house) => (
       <House key={house._id} house={house} />
     ));
-  }
+  };
+
+  handleMapClick(e) {
+    Meteor.call('houses.insert', e.latlng.lat, e.latlng.lng);
+    console.log(`lat: ${e.latlng.lat} lng: ${e.latlng.lng}`);
+  };
 
   render() {
     return (
@@ -21,7 +26,11 @@ class App extends Component {
           <h1>Housing Map</h1>
         </header>
 
-        <Map center={[0, 0]} zoom={2}>
+        <Map
+          ref="map"
+          center={[0, 0]}
+          zoom={2}
+          onClick={this.handleMapClick.bind(this)}>
           <TileLayer
             url='altis/{z}/{x}/{y}.png'
             minZoom={1}
