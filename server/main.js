@@ -1,6 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/houses.jsx';
+import { Houses } from '../imports/api/houses.jsx';
 
 Meteor.startup(() => {
-  // code to run on server at startup
+  //--- This locks the Houses database from direct client side updates.
+  Houses.deny({
+    insert() { return true; },
+    update() { return true; },
+    remove() { return true; },
+  });
 });
