@@ -15,15 +15,15 @@ class App extends Component {
   };
 
   handleMapClick(e) {
+    if (!e.latlng.lat || !e.latlng.lng) return;
     Meteor.call('houses.insert', e.latlng.lat, e.latlng.lng);
-    console.log(`lat: ${e.latlng.lat} lng: ${e.latlng.lng}`);
   };
 
   render() {
     return (
       <div className="container">
         <header>
-          <h1>Housing Map</h1>
+          <h1>Housing Map - {this.props.houses.length} houses tracked</h1>
         </header>
 
         <Map
